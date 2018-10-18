@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include "unitcomp.h"
 
 #define PI 3.14159265
 
@@ -22,6 +23,3 @@ void compute(){
     printf("Cosine of %lf is %lf degrees\n", x, res);
 }
 
-int main(){
-    compute();
-}
