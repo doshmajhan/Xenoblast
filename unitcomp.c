@@ -6,20 +6,34 @@
 
 #define PI 3.14159265
 
+
 // Represents an expensive computation that should 
 // generate CPU load
-void compute(){
+// returns the time taken to execute
+double unitcomp(){
     
-    // Seed our RNG
-    srand(time(NULL));
+    // Start clock
+    clock_t t = clock();
 
-    // Get a random number between 0 and 90
-    double x = (rand() % 90) + 1;
+    int count = 0;
+
+    while (count < 696) {
+        srand(time(NULL));
     
-    // Get the cosine of our number
-    double val = (PI/180.0) * x;
-    double res = cos(val);
+        double y = rand();
+        double x = rand();
+        double val = (fmod(pow(x, y), 90.0)) + 1.0;
+    
+        double degrees = (PI/180.0) * val;
+        double res = cos(degrees);
+        (void)res;
 
-    printf("Cosine of %lf is %lf degrees\n", x, res);
+        count += 1;
+    }
+
+    // Get end time
+    t = clock() - t;
+    double time_taken = ((double)t)/CLOCKS_PER_SEC;
+    return time_taken;
 }
 
