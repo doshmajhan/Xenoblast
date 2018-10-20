@@ -7,7 +7,7 @@ from unitcomp import unitcomp
     returns the average time taken to run unitcomp
 """
 def initialization():
-    count = 0;
+    count = 0
     total_time = 0
 
     while(count < 100): 
@@ -102,7 +102,7 @@ def recieve_data(standard_number):
     num_bits = 0
     data = ""
 
-    while numb_bits < 64:
+    while num_bits < 64:
 
         # Run for 1 second
         end_time = time.time() + 1
@@ -118,7 +118,7 @@ def recieve_data(standard_number):
         else:
             data += "0"
 
-        numb_bits += 1
+        num_bits += 1
 
         # pause for 1 second
         time.sleep(1)
