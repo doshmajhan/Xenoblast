@@ -13,10 +13,10 @@ def unitcomp():
     # Start clock
     t = time.time()
     
-    y = random.getrandbits(12)
-    x = random.getrandbits(12)
+    y = random.getrandbits(17)
+    x = random.getrandbits(17)
     x**y
-
     # Get end time
     time_taken = time.time() - t
     return time_taken
+

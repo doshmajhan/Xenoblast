@@ -38,15 +38,17 @@ def synchronization(avg_time):
         if time_taken > (avg_time + 0.03):
             
             print("Higher load noticed, checking if sync is in progress")
-
+            print(time_taken - (avg_time + 0.03))
             # Time is greater than average so
             # see if it stays that way for at least 1.5s
             while time_taken > (avg_time + 0.03):
                 time_taken = unitcomp()
                 end_time = time.time()
+                print("Above average loop")
 
             # check if the time it lasted was at least 1.5 seconds
             if (end_time - start_time) >= 1.5:
+                print("Lasted atleast 1.5")
                 # time was at least 1.5 seconds so 
                 # we can assume the sender is syncing with us
                 # so break out of this function
@@ -54,6 +56,7 @@ def synchronization(avg_time):
 
             # time was not long enough for sync phase
             # so keep looking
+            print("Continue")
             continue
 
 """
