@@ -141,6 +141,9 @@ if __name__ == '__main__':
         synchronization(avg_time)
         print("Synchronization complete")
 
+        # Sleep after sync
+        time.sleep(1)
+        
         # CONFIRM
         print("Confirming the higher load is from the sender")
         standard_number = confirmation(avg_time)
