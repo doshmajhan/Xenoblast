@@ -1,3 +1,4 @@
+import bitarray
 import time
 from unitcomp import unitcomp
 
@@ -9,7 +10,7 @@ from unitcomp import unitcomp
 def synchronization():
     
     # Run for 1.5 seconds
-    end_time = time.time() + 1.7
+    end_time = time.time() + 1
 
     while time.time() <= end_time:
         
@@ -24,17 +25,17 @@ def synchronization():
 """
 def transmit_data(data):
 
-    binary = ''.join(format(ord(c), 'b') for c in data)
-
-    for x in binary:
+    for x in data:
         # Run for 1 seconds
         end_time = time.time() + 1
 
-        if x == '1':
+        if x == 1:
+            print("Sending 1")
             while time.time() <= end_time:
 
                 unitcomp()
         else:
+            print("Sending 0")
             time.sleep(end_time - time.time())
 
         # pause for 1 second
@@ -43,6 +44,11 @@ def transmit_data(data):
 
 if __name__ == "__main__":
     
+    data = "pass"
+    ba = bitarray.bitarray()
+    ba.frombytes(data.encode("utf-8"))   
+    
+    print("Starting sync")
     # Send synchronization
     synchronization()
 
@@ -53,7 +59,7 @@ if __name__ == "__main__":
     time.sleep(1)
 
     # Pause for 1 more second to sync up
-    time.sleep(1)
+    time.sleep(0.7)
 
-    data = "password"
-    transmit_data(data)
+    print("Transmitting data")
+    transmit_data(ba)
