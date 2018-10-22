@@ -1,7 +1,8 @@
+import bitarray
 import time
 from unitcomp import unitcomp
 
-THRESHOLD = 0.06
+THRESHOLD = 0.009
 
 """
     Run unit comp 100 times to establish
@@ -39,26 +40,25 @@ def synchronization(avg_time):
         # Check if the time taken is greater than average
         if time_taken > (avg_time + THRESHOLD):
             
-            print("Higher load noticed, checking if sync is in progress")
-            print(time_taken - (avg_time + THRESHOLD))
+            #print("Higher load noticed, checking if sync is in progress")
+            #print(time_taken - (avg_time + THRESHOLD))
             # Time is greater than average so
             # see if it stays that way for at least 1.5s
             while time_taken > (avg_time + THRESHOLD):
                 time_taken = unitcomp()
                 end_time = time.time()
-                print("Above average loop")
 
             # check if the time it lasted was at least 1.5 seconds
-            if (end_time - start_time) >= 1.5:
-                print("Lasted atleast 1.5")
+            if (end_time - start_time) >= 0.007:
+                print("Lasted atleast .007")
                 # time was at least 1.5 seconds so 
                 # we can assume the sender is syncing with us
                 # so break out of this function
                 return
-
+            
+            print("Not synced, only lasted: {}".format(end_time - start_time))
             # time was not long enough for sync phase
             # so keep looking
-            print("Continue")
             continue
 
 """
@@ -85,7 +85,8 @@ def confirmation(avg_time):
         time_taken = unitcomp()
         count += 1
 
-        if time_taken > (avg_time + THRESHHOLD):
+        if time_taken > (avg_time + THRESHOLD):
+            print(time_taken)
             # High CPU load is still occuring meaning
             # it wasn't the sender creating it
             return 0
@@ -104,7 +105,7 @@ def recieve_data(standard_number):
     num_bits = 0
     data = ""
 
-    while num_bits < 64:
+    while num_bits < 32:
 
         # Run for 1 second
         end_time = time.time() + 1
@@ -114,10 +115,12 @@ def recieve_data(standard_number):
             unitcomp()
             count += 1
 
-        if count < (standard_number * 0.9):
+        if count < (standard_number * 0.95):
+            print("Recieved 1")
             # It was less than 90% so it was a 1
             data += "1"
         else:
+            print("Recieved 0")
             data += "0"
 
         num_bits += 1
@@ -149,19 +152,20 @@ if __name__ == '__main__':
         # CONFIRM
         print("Confirming the higher load is from the sender")
         standard_number = confirmation(avg_time)
-        print("Standard number: {}".format(confirmed))
+        print("Standard number: {}".format(standard_number))
         if standard_number > 0:
             confirmed = True
 
     
     # Pause to reset state of vcpus
     time.sleep(1)
-    
+   
+    print("Recieving data")
     # RECIEVE DATA
     data = recieve_data(standard_number)
 
     # convert bit string to hex string then to regular string
-    hex_string = hex(int(data, 2))
-    phrase = hex_string.decode('hex')
+    print(data)
+    phrase = bitarray.bitarray(data).tobytes().decode('utf-8')
     print("Recieved data: {}".format(phrase))
 
