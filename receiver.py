@@ -1,6 +1,8 @@
 import time
 from unitcomp import unitcomp
 
+THRESHOLD = 0.06
+
 """
     Run unit comp 100 times to establish
     the average amount of time it should take to run
@@ -35,13 +37,13 @@ def synchronization(avg_time):
         time_taken = unitcomp()
 
         # Check if the time taken is greater than average
-        if time_taken > (avg_time + 0.03):
+        if time_taken > (avg_time + THRESHOLD):
             
             print("Higher load noticed, checking if sync is in progress")
-            print(time_taken - (avg_time + 0.03))
+            print(time_taken - (avg_time + THRESHOLD))
             # Time is greater than average so
             # see if it stays that way for at least 1.5s
-            while time_taken > (avg_time + 0.03):
+            while time_taken > (avg_time + THRESHOLD):
                 time_taken = unitcomp()
                 end_time = time.time()
                 print("Above average loop")
@@ -83,7 +85,7 @@ def confirmation(avg_time):
         time_taken = unitcomp()
         count += 1
 
-        if time_taken > (avg_time + 0.03):
+        if time_taken > (avg_time + THRESHHOLD):
             # High CPU load is still occuring meaning
             # it wasn't the sender creating it
             return 0
